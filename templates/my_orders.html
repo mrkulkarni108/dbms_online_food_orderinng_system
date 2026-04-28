@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}My Orders - QuickBite{% endblock %}
+
+{% block content %}
+<section class="section section-tight">
+    <div class="section-heading-row">
+        <div>
+            <p class="page-kicker">history</p>
+            <h1 class="section-title left">My Orders</h1>
+        </div>
+        <a href="/restaurants" class="btn-secondary small">Order Again</a>
+    </div>
+
+    {% if orders %}
+        <div class="order-grid">
+            {% for order in orders %}
+            <article class="order-card">
+                <div class="order-card-top">
+                    <div>
+                        <h3>#{{ order.order_id }} - {{ order.restaurant_name }}</h3>
+                        <p>{{ order.order_date.strftime('%d %b %Y, %I:%M %p') if order.order_date else 'n/a' }}</p>
+                    </div>
+                    <span class="status-badge status-{{ order.status }}">{{ order.status }}</span>
+                </div>
+                <div class="order-card-meta">
+                    <span>total: &#8377;{{ order.total_amount }}</span>
+                    <span>payment: {{ order.payment_method }} / {{ order.payment_status }}</span>
+                </div>
+                <a href="/orders/{{ order.order_id }}" class="btn-primary small">Track Order</a>
+            </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state-card">
+            <h3>No orders yet</h3>
+            <p>Your placed orders will appear here with status, payment details, and tracking history.</p>
+            <a href="/restaurants" class="btn-primary">Start Ordering</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

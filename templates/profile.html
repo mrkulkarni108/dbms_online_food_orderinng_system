@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - QuickBite{% endblock %}
+
+{% block content %}
+<section class="section section-tight">
+    <div class="tracking-layout">
+        <div class="panel">
+            <div class="section-heading-row">
+                <div>
+                    <p class="page-kicker">profile</p>
+                    <h1 class="section-title left">My Profile</h1>
+                </div>
+                <div class="stats-strip">
+                    <span><strong>{{ profile.total_orders }}</strong> orders</span>
+                    <span><strong>&#8377;{{ profile.total_spent }}</strong> spent</span>
+                </div>
+            </div>
+
+            <form action="/profile" method="post">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" value="{{ profile.user.name }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" value="{{ profile.user.email }}" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="new_password">New Password (Optional)</label>
+                    <input type="password" id="new_password" name="new_password" placeholder="Leave blank to keep current password">
+                </div>
+
+                {% if profile.addresses %}
+                <div class="form-group">
+                    <label for="default_address_id">Default Address</label>
+                    <select id="default_address_id" name="default_address_id" class="form-select">
+                        {% for address in profile.addresses %}
+                            <option value="{{ address.id }}" {% if address.is_default %}selected{% endif %}>{{ address.label }} - {{ address.address_line }}, {{ address.city }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endif %}
+
+                <button type="submit" class="btn-primary">Update Profile</button>
+            </form>
+        </div>
+
+        <div class="panel">
+            <h3 class="subheading">Saved Addresses</h3>
+            {% if profile.addresses %}
+                {% for address in profile.addresses %}
+                <div class="address-card {% if address.is_default %}default{% endif %}">
+                    <div>
+                        <strong>{{ address.label }}</strong>
+                        <p>{{ address.address_line }}</p>
+                        <small>{{ address.city }}</small>
+                    </div>
+                    {% if address.is_default %}
+                        <span class="status-badge status-confirmed">default</span>
+                    {% else %}
+                        <form action="/profile/addresses/{{ address.id }}/default" method="post">
+                            <button type="submit" class="btn-secondary small">Set Default</button>
+                        </form>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="muted-text">No saved addresses yet.</p>
+            {% endif %}
+
+            <h3 class="subheading">Add New Address</h3>
+            <form action="/profile/addresses" method="post">
+                <div class="form-group">
+                    <label for="label">Address Label</label>
+                    <input type="text" id="label" name="label" placeholder="home / hostel / work" required>
+                </div>
+                <div class="form-group">
+                    <label for="address_line">Address Line</label>
+                    <input type="text" id="address_line" name="address_line" placeholder="Flat no, area, landmark" required>
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city" placeholder="Pune" required>
+                </div>
+                <label class="checkbox-row">
+                    <input type="checkbox" name="make_default">
+                    <span>Make this my default delivery address</span>
+                </label>
+                <button type="submit" class="btn-primary">Add Address</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

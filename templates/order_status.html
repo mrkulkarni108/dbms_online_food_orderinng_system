@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Status - QuickBite{% endblock %}
+
+{% block content %}
+<section class="section section-tight">
+    <div class="tracking-layout">
+        <div class="panel">
+            <div class="section-heading-row">
+                <div>
+                    <p class="page-kicker">tracking</p>
+                    <h1 class="section-title left">Order #{{ tracking.order.id }}</h1>
+                </div>
+                <span class="status-badge status-{{ tracking.order.status }}">{{ tracking.order.status }}</span>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-row"><span>restaurant</span><span>{{ tracking.order.restaurant_name }}</span></div>
+                <div class="summary-row"><span>ordered on</span><span>{{ tracking.order.order_date.strftime('%d %b %Y, %I:%M %p') if tracking.order.order_date else 'n/a' }}</span></div>
+                <div class="summary-row"><span>delivery address</span><span>{{ tracking.order.delivery_address }}, {{ tracking.order.city }}</span></div>
+                <div class="summary-row"><span>payment</span><span>{{ tracking.order.payment_method }} / {{ tracking.order.payment_status }}</span></div>
+                <div class="summary-row total"><span>total</span><span>&#8377;{{ tracking.order.total_amount }}</span></div>
+            </div>
+
+            <h3 class="subheading">Ordered Items</h3>
+            {% for item in tracking.items %}
+            <div class="cart-item compact">
+                <div class="cart-info">
+                    <h4 class="cart-title">{{ item.name }}</h4>
+                    <div class="cart-meta">qty {{ item.quantity }} x &#8377;{{ item.unit_price }}</div>
+                </div>
+                <span class="cart-price">&#8377;{{ item.line_total }}</span>
+            </div>
+            {% endfor %}
+
+            <div class="action-row">
+                {% if tracking.order.status not in ['delivered', 'cancelled'] %}
+                    <form action="/orders/{{ tracking.order.id }}/advance" method="post">
+                        <button type="submit" class="btn-primary small">Advance Status</button>
+                    </form>
+                    <form action="/orders/{{ tracking.order.id }}/cancel" method="post">
+                        <button type="submit" class="btn-secondary small">Cancel Order</button>
+                    </form>
+                {% endif %}
+                <a href="/orders" class="btn-secondary small">Back to Orders</a>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3 class="subheading">Status Timeline</h3>
+            <div class="timeline">
+                {% for step in tracking.history %}
+                <div class="timeline-item {% if step.status == tracking.order.status %}active{% endif %}">
+                    <div class="timeline-dot"></div>
+                    <div>
+                        <strong>{{ step.status }}</strong>
+                        <p>{{ step.notes or 'status updated' }}</p>
+                        <small>{{ step.changed_at.strftime('%d %b %Y, %I:%M %p') if step.changed_at else '' }}</small>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Menu - {{ restaurant.name }}{% endblock %}
+
+{% block content %}
+<header class="page-header accent-header">
+    <div>
+        <p class="page-kicker">menu</p>
+        <h1>{{ restaurant.name }}</h1>
+        <p>{{ restaurant.category }} in {{ restaurant.city }}</p>
+    </div>
+</header>
+
+<section class="section section-tight">
+    <div class="section-heading-row">
+        <h2 class="section-title left">Menu</h2>
+        <a href="/cart" class="btn-secondary small">Go to Cart</a>
+    </div>
+
+    {% if food_items %}
+    <div class="grid">
+        {% for item in food_items %}
+        <div class="food-card">
+            <img src="{{ item.image }}" alt="{{ item.name }}" class="food-image" onerror="this.src='https://via.placeholder.com/300?text=Food'">
+            <div class="food-info">
+                <h3 class="food-title">{{ item.name }}</h3>
+                <div class="food-meta">
+                    <span class="food-price">&#8377;{{ item.price }}</span>
+                    <a href="/add_to_cart/{{ item.id }}" class="btn-primary small">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state-card">
+        <h3>No menu items available</h3>
+        <p>This restaurant has not published menu items yet.</p>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

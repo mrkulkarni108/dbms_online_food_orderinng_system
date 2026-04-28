@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Restaurants in {{ city }} - QuickBite{% endblock %}
+
+{% block content %}
+<header class="page-header">
+    <div>
+        <p class="page-kicker">discover</p>
+        <h1>Welcome, {{ name }}!</h1>
+        <p>Here are the best restaurants delivering to <strong>{{ city }}</strong>.</p>
+    </div>
+</header>
+
+<section class="section section-tight">
+    <div class="section-heading-row">
+        <h2 class="section-title left">Restaurants in Your City</h2>
+        <a href="/orders" class="btn-secondary small">View My Orders</a>
+    </div>
+
+    {% if restaurants %}
+    <div class="grid">
+        {% for r in restaurants %}
+        <div class="food-card">
+            <img src="{{ r.image_url }}" alt="{{ r.name }}" class="food-image">
+            <div class="food-info">
+                <span class="badge-pill">{{ r.category }}</span>
+                <h3 class="food-title">{{ r.name }}</h3>
+                <p class="food-desc">Delicious {{ r.category }} cuisine delivered hot to your doorstep in {{ city }}.</p>
+                <div class="food-meta">
+                    <span class="food-price">Open Now</span>
+                    <a href="/menu/{{ r.id }}" class="btn-primary small">View Menu</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state-card">
+        <h3>No restaurants found</h3>
+        <p>We could not find any restaurants in {{ city }} right now. Update your city from the profile page or check back later.</p>
+        <a href="/profile" class="btn-secondary">Update Profile</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Cart - QuickBite{% endblock %}
+
+{% block content %}
+<section class="section section-tight">
+    <div class="panel cart-panel">
+        <div class="section-heading-row">
+            <div>
+                <p class="page-kicker">checkout</p>
+                <h1 class="section-title left">Your Food Cart</h1>
+            </div>
+            <a href="/restaurants" class="btn-secondary small">Add More Items</a>
+        </div>
+
+        {% if cart_items %}
+            <p class="cart-restaurant">restaurant: {{ cart_items[0].restaurant_name }}</p>
+            {% for item in cart_items %}
+            <div class="cart-item">
+                <div class="cart-info">
+                    <h3 class="cart-title">{{ item.name }}</h3>
+                    <div class="cart-meta">&#8377;{{ item.price }} x {{ item.quantity }}</div>
+                </div>
+                <div class="cart-actions-inline">
+                    <span class="cart-price">&#8377;{{ item.price * item.quantity }}</span>
+                    <a href="/remove_item/{{ item.item_id }}" class="link-danger">Remove</a>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="summary-card">
+                <div class="summary-row"><span>subtotal</span><span>&#8377;{{ totals.subtotal }}</span></div>
+                <div class="summary-row"><span>delivery fee</span><span>&#8377;{{ totals.delivery_fee }}</span></div>
+                <div class="summary-row"><span>tax</span><span>&#8377;{{ totals.tax_amount }}</span></div>
+                <div class="summary-row total"><span>total amount</span><span>&#8377;{{ totals.total_amount }}</span></div>
+            </div>
+
+            <form action="/place_order" method="post" class="checkout-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="payment_method">Payment Method</label>
+                        <select id="payment_method" name="payment_method" class="form-select">
+                            <option value="upi">upi</option>
+                            <option value="card">card</option>
+                            <option value="cash_on_delivery" selected>cash_on_delivery</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="payment_outcome">Simulated Payment Outcome</label>
+                        <select id="payment_outcome" name="payment_outcome" class="form-select">
+                            <option value="success" selected>success</option>
+                            <option value="failure">failure</option>
+                            <option value="db_failure">db_failure</option>
+                        </select>
+                    </div>
+                </div>
+                <p class="form-help">Use the failure options only for validation and transaction rollback testing.</p>
+                <button type="submit" class="btn-primary">Place Order with Transaction</button>
+            </form>
+        {% else %}
+            <div class="empty-state-card">
+                <h3>Your cart is empty</h3>
+                <p>Looks like you have not added anything to your cart yet.</p>
+                <a href="/restaurants" class="btn-primary">Browse Restaurants</a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

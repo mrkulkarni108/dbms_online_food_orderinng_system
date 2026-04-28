@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Confirmed - QuickBite{% endblock %}
+
+{% block content %}
+<section class="section section-tight">
+    <div class="panel success-panel">
+        <div class="success-icon">&#10003;</div>
+        <h1>Order Confirmed!</h1>
+        <p>Your order has been placed successfully. Delivery partner <strong>{{ agent }}</strong> is assigned to this order.</p>
+
+        <div class="summary-card summary-card-wide">
+            <div class="summary-row"><span>order id</span><span>#{{ order_id }}</span></div>
+            <div class="summary-row"><span>restaurant</span><span>{{ restaurant_name }}</span></div>
+            <div class="summary-row"><span>subtotal</span><span>&#8377;{{ subtotal }}</span></div>
+            <div class="summary-row"><span>delivery fee</span><span>&#8377;{{ delivery_fee }}</span></div>
+            <div class="summary-row"><span>tax</span><span>&#8377;{{ tax_amount }}</span></div>
+            <div class="summary-row total"><span>total amount</span><span>&#8377;{{ total_amount }}</span></div>
+            <div class="summary-row"><span>payment method</span><span>{{ payment_method }}</span></div>
+            <div class="summary-row"><span>payment status</span><span class="status-badge status-{{ payment_status }}">{{ payment_status }}</span></div>
+        </div>
+
+        <div class="hero-actions center">
+            <a href="/orders/{{ order_id }}" class="btn-primary">Track Order</a>
+            <a href="/restaurants" class="btn-secondary">Order More Food</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

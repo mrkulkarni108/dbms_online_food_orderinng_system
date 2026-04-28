@@ -1,0 +1,51 @@
+2026-04-15 03:08:05,584 | INFO | app | Logging configured for development environment.
+2026-04-15 03:08:05,709 | ERROR | app | Application startup failed during database initialization.
+Traceback (most recent call last):
+  File "C:\Users\Chinmay\OneDrive\Desktop\College\Sem 4\DBMS\Mini Project\online-food-delivery-system\.venv\Lib\site-packages\mysql\connector\connection_cext.py", line 354, in _open_connection
+    self._cmysql.connect(**cnx_kwargs)
+_mysql_connector.MySQLInterfaceError: Access denied for user 'root'@'localhost' (using password: NO)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Chinmay\OneDrive\Desktop\College\Sem 4\DBMS\Mini Project\online-food-delivery-system\backend\services\database_service.py", line 69, in get_db_connection
+    return get_connection_pool().get_connection()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Chinmay\OneDrive\Desktop\College\Sem 4\DBMS\Mini Project\online-food-delivery-system\backend\services\database_service.py", line 58, in get_connection_pool
+    _CONNECTION_POOL = pooling.MySQLConnectionPool(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Chinmay\OneDrive\Desktop\College\Sem 4\DBMS\Mini Project\online-food-delivery-system\.venv\Lib\site-packages\mysql\connector\pooling.py", line 490, in __init__
+    self.add_connection()
+  File "C:\Users\Chinmay\OneDrive\Desktop\College\Sem 4\DBMS\Mini Project\online-food-delivery-system\.venv\Lib\site-packages\mysql\connector\pooling.py", line 613, in add_connection
+    cnx = connect(**self._cnx_config)  # type: ignore[assignment]
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Chinmay\OneDrive\Desktop\College\Sem 4\DBMS\Mini Project\online-food-delivery-system\.venv\Lib\site-packages\mysql\connector\pooling.py", line 322, in connect
+    return CMySQLConnection(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Chinmay\OneDrive\Desktop\College\Sem 4\DBMS\Mini Project\online-food-delivery-system\.venv\Lib\site-packages\mysql\connector\connection_cext.py", line 142, in __init__
+    self.connect(**kwargs)
+  File "C:\Users\Chinmay\OneDrive\Desktop\College\Sem 4\DBMS\Mini Project\online-food-delivery-system\.venv\Lib\site-packages\mysql\connector\abstracts.py", line 1604, in connect
+    self._open_connection()
+  File "C:\Users\Chinmay\OneDrive\Desktop\College\Sem 4\DBMS\Mini Project\online-food-delivery-system\.venv\Lib\site-packages\mysql\connector\connection_cext.py", line 360, in _open_connection
+    raise get_mysql_exception(
+mysql.connector.errors.ProgrammingError: 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Chinmay\OneDrive\Desktop\College\Sem 4\DBMS\Mini Project\online-food-delivery-system\backend\app.py", line 32, in create_app
+    init_db()
+  File "C:\Users\Chinmay\OneDrive\Desktop\College\Sem 4\DBMS\Mini Project\online-food-delivery-system\backend\services\database_service.py", line 555, in init_db
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Chinmay\OneDrive\Desktop\College\Sem 4\DBMS\Mini Project\online-food-delivery-system\backend\services\database_service.py", line 72, in get_db_connection
+    raise DatabaseServiceError('Database connection is unavailable.') from exc
+services.database_service.DatabaseServiceError: Database connection is unavailable.
+2026-04-15 03:09:03,662 | INFO | app | Logging configured for development environment.
+2026-04-15 03:09:04,161 | INFO | app | Application created successfully.
+2026-04-15 03:12:17,120 | INFO | app | Logging configured for development environment.
+2026-04-15 03:12:17,561 | INFO | app | Application created successfully.
+2026-04-15 10:52:35,733 | INFO | app | Logging configured for development environment.
+2026-04-15 10:52:36,414 | INFO | app | Application created successfully.
+2026-04-15 10:52:37,420 | INFO | app | Logging configured for development environment.
+2026-04-15 10:52:37,884 | INFO | app | Application created successfully.

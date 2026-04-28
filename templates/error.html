@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} - QuickBite{% endblock %}
+
+{% block content %}
+<section class="section section-tight">
+    <div class="panel error-panel">
+        <p class="page-kicker">system message</p>
+        <h1 class="section-title left">{{ title }}</h1>
+        <p class="muted-text">{{ message }}</p>
+        <div class="hero-actions center">
+            <a href="/" class="btn-primary">Go Home</a>
+            {% if logged_in %}
+                <a href="/orders" class="btn-secondary">My Orders</a>
+            {% else %}
+                <a href="/login" class="btn-secondary">Login</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
